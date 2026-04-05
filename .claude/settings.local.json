@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:rustmagic.com)",
+      "WebFetch(domain:rustclash.com)",
+      "WebFetch(domain:clash.gg)",
+      "WebFetch(domain:skinrave.com)",
+      "WebFetch(domain:rain.gg)",
+      "WebFetch(domain:skinrave.gg)",
+      "WebFetch(domain:csgobig.com)",
+      "WebFetch(domain:csgogem.com)",
+      "Bash(timeout 30 python test_kit.py bar rain.gg)",
+      "Bash(timeout 60 python test_kit.py detect https://bandit.camp)",
+      "Bash(timeout 60 python test_kit.py detect https://rustmagic.com/)",
+      "Bash(timeout 60 python test_kit.py ocr https://rain.gg)",
+      "Bash(timeout 60 python test_kit.py dom https://rain.gg)",
+      "Bash(timeout 60 python test_kit.py detect https://rain.gg)",
+      "Bash(timeout 30 python test_kit.py bar https://rain.gg)",
+      "Bash(wait)",
+      "Bash(timeout 60 python test_kit.py popup https://rain.gg)"
+    ]
+  }
+}

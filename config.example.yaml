@@ -1,0 +1,44 @@
+discord:
+  # Default ping for all sites (can be overridden per site)
+  # Options: "@everyone", "@here", "<@USER_ID>", "<@&ROLE_ID>", or "" for silent
+  ping: "@everyone"
+
+# Seconds between full scan cycles
+scan_interval: 60
+
+# Page load timeout in seconds per site
+page_timeout: 30
+
+sites:
+  - url: "https://howl.gg"
+    keywords: ["rain", "raining"]
+    webhook_url: "https://discord.com/api/webhooks/YOUR_WEBHOOK/YOUR_TOKEN"
+    # ping: ""  # optional per-site ping override
+
+  - url: "https://rustmagic.com"
+    keywords: ["rain", "raining"]
+    webhook_url: "https://discord.com/api/webhooks/YOUR_WEBHOOK/YOUR_TOKEN"
+
+  - url: "https://rustclash.com"
+    keywords: ["rain", "raining"]
+    webhook_url: "https://discord.com/api/webhooks/YOUR_WEBHOOK/YOUR_TOKEN"
+
+  - url: "https://clash.gg"
+    keywords: ["rain", "raining"]
+    webhook_url: "https://discord.com/api/webhooks/YOUR_WEBHOOK/YOUR_TOKEN"
+
+  - url: "https://skinrave.gg"
+    keywords: ["rain", "raining"]
+    webhook_url: "https://discord.com/api/webhooks/YOUR_WEBHOOK/YOUR_TOKEN"
+
+  - url: "https://rain.gg"
+    keywords: ["rain", "raining"]
+    webhook_url: "https://discord.com/api/webhooks/YOUR_WEBHOOK/YOUR_TOKEN"
+
+  - url: "https://csgobig.com"
+    keywords: ["rain", "raining"]
+    webhook_url: "https://discord.com/api/webhooks/YOUR_WEBHOOK/YOUR_TOKEN"
+
+  - url: "https://csgogem.com"
+    keywords: ["rain", "raining"]
+    webhook_url: "https://discord.com/api/webhooks/YOUR_WEBHOOK/YOUR_TOKEN"

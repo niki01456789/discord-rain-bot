@@ -1,0 +1,9 @@
+config.yaml
+*.pyc
+__pycache__/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.DS_Store
+ocr_debug_*.png
