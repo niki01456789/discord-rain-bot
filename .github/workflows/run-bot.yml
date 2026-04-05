@@ -4,14 +4,13 @@ on:
   push:
     branches: [ main ]
   schedule:
-    # Run continuously - restart every 6 hours to refresh
     - cron: '0 */6 * * *'
   workflow_dispatch:
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 350  # GitHub max is 360 minutes per job
+    timeout-minutes: 350
     
     steps:
     - uses: actions/checkout@v3
@@ -36,9 +35,7 @@ jobs:
       env:
         BOT_CONFIG: ${{ secrets.BOT_CONFIG }}
       run: |
-        # Write config from secrets if provided
         if [ ! -z "$BOT_CONFIG" ]; then
           echo "$BOT_CONFIG" > config.yaml
         fi
-        # Run the bot
         timeout 345m python main.py || true
