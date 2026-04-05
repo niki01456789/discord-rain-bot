@@ -1,0 +1,16 @@
+discord:
+  # Default ping for all sites (can be overridden per site)
+  ping: "@everyone"
+
+scan_interval: 30
+page_timeout: 30
+
+sites:
+  - url: "https://howl.gg/r/degdeg"
+    keywords: ["rain", "raining"]
+    webhook_url: "https://discord.com/api/webhooks/1489930398560686144/DZiVOsFDIukQIYbSRZfkaMNlpfUsjiQMKSpKYxl1GHl2-CdkUTTowXNAAOM_VF1YgBVW"
+
+  - url: "https://bandit.camp/r/iamfree"
+    keywords: ["rain", "raining"]
+    timer_mode: "bar"
+    webhook_url: "https://discord.com/api/webhooks/1489790133707341956/3ccDVxRMZcyx5KSS4C7rXgVfU2t6wfvjzEM71wMzFg6KrX8LS3uT5GS4jGOoeZXLJaeI"
