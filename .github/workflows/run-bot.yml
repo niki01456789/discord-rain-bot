@@ -31,11 +31,18 @@ jobs:
         pip install -r requirements.txt
         python -m playwright install chromium
     
-    - name: Run Discord Rain Bot
+    - name: Create config file
       env:
         BOT_CONFIG: ${{ secrets.BOT_CONFIG }}
       run: |
-        if [ ! -z "$BOT_CONFIG" ]; then
-          echo "$BOT_CONFIG" > config.yaml
+        if [ -z "$BOT_CONFIG" ]; then
+          echo "ERROR: BOT_CONFIG secret not set!"
+          exit 1
         fi
+        echo "$BOT_CONFIG" > config.yaml
+        echo "Config file created:"
+        cat config.yaml
+    
+    - name: Run Discord Rain Bot
+      run: |
         timeout 345m python main.py || true
