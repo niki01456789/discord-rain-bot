@@ -31,35 +31,36 @@ def cleanup_ocr_debug(base_dir: str) -> None:
 logger = logging.getLogger("rain_bot")
 
 
-async def scan_site(scanner: Scanner, site: dict, default_ping: str) -> tuple[str, str, object]:
-    """Scan a single site and return (url, ping, event_or_none)."""
-    url = site["url"]
+async def scan_site(scanner: Scanner, site: dict, default_ping: str) -> tuple[str, str, object, str]:
+    """Scan a single site and return (notify_url, ping, event_or_none, webhook_url)."""
+    scan_url = site.get("scan_url", site.get("url"))  # fallback to old "url" field
+    notify_url = site.get("notify_url", scan_url)  # fallback to scan_url if not specified
     keywords = site.get("keywords", ["rain", "raining"])
     timer_mode = site.get("timer_mode", "ocr")
     webhook_url = site.get("webhook_url", "")
     ping = site.get("ping", default_ping)
 
     if not webhook_url:
-        logger.warning(f"No webhook_url configured for {url}, skipping")
-        return url, ping, None
+        logger.warning(f"No webhook_url configured for {scan_url}, skipping")
+        return notify_url, ping, None, webhook_url
 
-    logger.debug(f"Scanning {url}...")
-    page, _ = await scanner.load_page(url)
+    logger.debug(f"Scanning {scan_url}...")
+    page, _ = await scanner.load_page(scan_url)
     if page is None:
-        return url, ping, None
+        return notify_url, ping, None, webhook_url
 
-    event = await detect_rain_ocr(page, url, keywords, timer_mode)
+    event = await detect_rain_ocr(page, notify_url, keywords, timer_mode)
     if event:
-        logger.debug(f"Rain detected via OCR on {url}")
+        logger.debug(f"Rain detected via OCR on {scan_url}")
     else:
-        logger.debug(f"No rain on {url}")
+        logger.debug(f"No rain on {scan_url}")
 
     try:
         await page.close()
     except Exception:
         pass
 
-    return url, ping, event
+    return notify_url, ping, event, webhook_url
 
 
 async def scan_cycle(scanner: Scanner, state: RainState, config: dict):
@@ -79,24 +80,23 @@ async def scan_cycle(scanner: Scanner, state: RainState, config: dict):
         batch = sites[i:i + 2]
         results = await asyncio.gather(*[scan_site(scanner, s, default_ping) for s in batch])
 
-        for url, ping, event in results:
-            webhook_url = next(s["webhook_url"] for s in batch if s["url"] == url)
+        for notify_url, ping, event, webhook_url in results:
             if event:
-                rain_seen_this_cycle.add(url)
-                if state.is_new_rain(url):
+                rain_seen_this_cycle.add(notify_url)
+                if state.is_new_rain(notify_url):
                     logger.info(f"NEW rain on {event.site_name}: {event.status}, amount={event.amount}")
                     msg_id = send_rain_alert(webhook_url, event, ping)
-                    state.mark_active(url, amount=event.amount, message_id=msg_id,
+                    state.mark_active(notify_url, amount=event.amount, message_id=msg_id,
                                       webhook_url=webhook_url)
                 else:
-                    msg_id = state.get_message_id(url)
-                    wh_url = state.get_webhook_url(url)
+                    msg_id = state.get_message_id(notify_url)
+                    wh_url = state.get_webhook_url(notify_url)
                     if msg_id and wh_url and (event.amount or event.time_remaining):
                         # Use last known amount if this scan didn't get one
                         if not event.amount:
-                            event.amount = state.get_amount(url)
+                            event.amount = state.get_amount(notify_url)
                         elif event.amount:
-                            state.update_amount(url, event.amount)
+                            state.update_amount(notify_url, event.amount)
                         edit_rain_alert(wh_url, msg_id, event)
                         logger.debug(f"Updated rain on {event.site_name}: amount={event.amount}, timer={event.time_remaining}")
 
