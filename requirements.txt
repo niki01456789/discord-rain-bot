@@ -1,6 +1,6 @@
-playwright==1.52.0
-playwright-stealth==2.0.3
-pyyaml==6.0.2
-requests==2.32.3
-pytesseract==0.3.13
-Pillow==11.2.1
+playwright>=1.40.0
+playwright-stealth>=2.0.0
+pyyaml>=6.0.0
+requests>=2.30.0
+pytesseract>=0.3.0
+Pillow>=10.0.0
