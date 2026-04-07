@@ -6,7 +6,7 @@ scan_interval: 30
 page_timeout: 30
 
 sites:
-  - scan_url: "https://how.gg"
+  - scan_url: "https://howl.gg"
     notify_url: "https://howl.gg/r/degdeg"
     keywords: ["rain", "raining"]
     webhook_url: "https://discord.com/api/webhooks/1489930398560686144/DZiVOsFDIukQIYbSRZfkaMNlpfUsjiQMKSpKYxl1GHl2-CdkUTTowXNAAOM_VF1YgBVW"
