@@ -130,7 +130,8 @@ async def main():
 
     logger.info(f"Monitoring {len(sites)} sites every {scan_interval}s")
     for site in sites:
-        logger.info(f"  - {site['url']} (keywords: {site.get('keywords', ['rain', 'raining'])})")
+        scan_url = site.get("scan_url", site.get("url", "unknown"))
+        logger.info(f"  - {scan_url} (keywords: {site.get('keywords', ['rain', 'raining'])})")
 
     scanner = Scanner(page_timeout=page_timeout)
     state = RainState()
