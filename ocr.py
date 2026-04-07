@@ -343,7 +343,9 @@ def _ocr_widget_crop(screenshot_bytes: bytes) -> str | None:
 
 
 def _save_debug(img: Image.Image, site_name: str) -> None:
+    import os
     try:
-        img.save(f"/home/aleks/Documents/Cursor/Discord Rain Bot/ocr_debug_{site_name}.png")
-    except Exception:
-        pass
+        debug_dir = os.path.dirname(os.path.abspath(__file__))
+        img.save(os.path.join(debug_dir, f"ocr_debug_{site_name}.png"))
+    except Exception as e:
+        logger.debug(f"Failed to save debug screenshot: {e}")
